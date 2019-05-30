@@ -50,13 +50,15 @@ def AlphabetOrder(wordlist):
             finlist.append(x)
     return finlist
 
-with open ('WordList.txt') as f:
-    lines = f.read().splitlines()
-    dupes = [x for x in lines if lines.count(x) > 1]
+def RemoveDuplicatesAndLowerFromList(wordlist):
+    dupes = [x for x in lines if wordlist.count(x) > 1]
     if(len(dupes) != 0):
         print("Duplicates found in word list. Remove these:" + str(dupes))
-    lowerDupesRemoved = list(set([x.lower() for x in lines]))
-    modifiedAlphabet = AlphabetOrder(lowerDupesRemoved)
+    return list(set([x.lower() for x in lines]))
+
+with open ('WordList.txt') as f:
+    lines = f.read().splitlines()
+    modifiedAlphabet = AlphabetOrder(RemoveDuplicatesAndLowerFromList(lines))
     print(modifiedAlphabet)
     classicAlphabet = string.ascii_lowercase[:26]
     #PlotLettersByWords(classicAlphabet)
