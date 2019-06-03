@@ -1,5 +1,5 @@
 import unittest
-from WordProcess import *
+from AlphaOrder import GetDictKeysFromValues, CombineUniqueSecondList, BasicFrequencyAlphaOrder
 
 class WordTestCase(unittest.TestCase):
     
@@ -16,10 +16,14 @@ class WordTestCase(unittest.TestCase):
         dicta = {'ab':1, 'er':2, 'fd':3}
         self.assertListEqual(GetDictKeysFromValues(dicta, 2), ['e','r'])
     
-    def test_get_words_by_letters(self):
-        wordList = ['cab', 'car', 'dog', 'carp','card']
-        characterList = ['a','b','c','r','d']
-        self.assertEqual(GetWordsByLetters(wordList, characterList), ['cab', 'car','card'])
+    def test_basic(self):
+        wordlist = ['abcc','def']
+        self.assertListEqual(BasicFrequencyAlphaOrder(wordlist), ['c','a','b','d','e','f'])
+    
+    #def test_get_words_by_letters(self):
+    #    wordList = ['cab', 'car', 'dog', 'carp','card']
+    #    characterList = ['a','b','c','r','d']
+    #    self.assertEqual(GetWordsByLetters(wordList, characterList), ['cab', 'car','card'])
 
 if __name__ == '__main__':
     unittest.main()

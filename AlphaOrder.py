@@ -2,14 +2,14 @@ from itertools import groupby
 import matplotlib.pyplot as plt
 import string
 
-def GetAdjacencyList(word):
-    broken = [word[x] + word[x+1] for x,y in enumerate(word) if x+1 < len(word)]
-    sort = [''.join(sorted(x)) for x in broken]
-    dupesRemoved = list(set(sort))
-    dupesRemoved = [x for x in dupesRemoved if x[0] != x[1]]
-    return sorted(dupesRemoved)
+def GetAdjacentPairList(word):
+    pairs = [word[x] + word[x+1] for x,y in enumerate(word) if x+1 < len(word)]
+    sortedPairs = [''.join(sorted(x)) for x in pairs]
+    sortedPairsNoDupes = list(set(sortedPairs))
+    sortedPairsNoDupes = [x for x in sortedPairsNoDupes if x[0] != x[1]]
+    return sorted(sortedPairsNoDupes)
 
-def UpdateDictFromList(theDict, nonDupeList):
+def CombineFrequencyDictAndList(theDict, nonDupeList):
     return {x:(int(theDict.get(x, 0))+1) for x in nonDupeList}
 
 def UniqueValuesFromDict(theDict):
@@ -36,11 +36,11 @@ def PlotLettersByWords(wordList, characterList):
     plt.plot(x, y)
     plt.show()
 
-def AlphabetOrder(wordlist):
+def PairedFrequencyAlphaOrder(wordlist):
     adjacencyDict = {}
     orderList = []
     for y in wordlist:
-        adjacencyDict.update(UpdateDictFromList(adjacencyDict, GetAdjacencyList(y)))
+        adjacencyDict.update(CombineFrequencyDictAndList(adjacencyDict, GetAdjacentPairList(y)))
     uniqueValues = UniqueValuesFromDict(adjacencyDict)
     orderList = [CombineUniqueSecondList(orderList, GetDictKeysFromValues(adjacencyDict, x)) for x in uniqueValues]
     flatlist = [x for y in orderList for x in y]
@@ -50,16 +50,26 @@ def AlphabetOrder(wordlist):
             finlist.append(x)
     return finlist
 
+def BasicFrequencyAlphaOrder(wordlist):
+    orderList = []
+    letterList = [y for x in wordlist for y in x]
+    freqDict = {x:letterList.count(x) for x in letterList}
+    for x,y in freqDict.items():
+        print(x + ":" + str(y))
+    uniqueValues = UniqueValuesFromDict(freqDict)
+    orderList = [CombineUniqueSecondList(orderList, GetDictKeysFromValues(freqDict, x)) for x in uniqueValues]
+    return [y for x in orderList for y in x]
+
 def RemoveDuplicatesAndLowerFromList(wordlist):
     dupes = [x for x in lines if wordlist.count(x) > 1]
     if(len(dupes) != 0):
         print("Duplicates found in word list. Remove these:" + str(dupes))
     return list(set([x.lower() for x in lines]))
 
-with open ('WordList.txt') as f:
+with open ('WordList - twoyearold.txt') as f:
     lines = f.read().splitlines()
-    modifiedAlphabet = AlphabetOrder(RemoveDuplicatesAndLowerFromList(lines))
-    print(modifiedAlphabet)
+    modifiedAlphabet = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    #print(modifiedAlphabet)
     classicAlphabet = string.ascii_lowercase[:26]
     #PlotLettersByWords(classicAlphabet)
     #PlotLettersByWords(modifiedAlphabet)
