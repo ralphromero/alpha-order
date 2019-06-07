@@ -1,6 +1,6 @@
 from itertools import groupby
 from Evaluator import MatchWordsFromLetters
-#from Graph import PlotCharacterLists
+from Graph import PlotCharacterLists
 import matplotlib.pyplot as plt
 import string
 
@@ -86,12 +86,14 @@ with open ('WordList - twoyearold.txt') as f:
         print("Modified Letters: " + str(modifiedAlphabet[:x]))
         print("Modified: ")
         print(MatchWordsFromLetters(modifiedAlphabet[:x],lines))
-    stuff = [(classicAlphabet, "Classic Alphabet")]
-    #PlotCharacterLists(lines, stuff)
-    PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
+
+    pairedFrequency = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    stuff = [(classicAlphabet, "Classic Alphabet"),(modifiedAlphabet, "Basic Frequency"),(pairedFrequency, "Paired Frequency")]
+    PlotCharacterLists(lines, stuff)
+    #PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
     
 
-    # modifiedAlphabet = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    
     # for x in sampleIndex:
     #     print("Using " + str(x) + " letters we can make the words:")
     #     print("Modified Letters: " + str(modifiedAlphabet[:x]))
