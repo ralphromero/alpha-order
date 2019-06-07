@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from Evaluator import MatchWordsFromLetters, CountWords
+from Evaluator import MatchWordsFromLetters
 
 def PlotCharacterLists(wordlist, charListLabel):
     alphabetLength = 26

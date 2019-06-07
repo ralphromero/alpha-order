@@ -1,5 +1,5 @@
 from itertools import groupby
-from Evaluator import MatchWordsFromLetters, CountWords
+from Evaluator import MatchWordsFromLetters
 #from Graph import PlotCharacterLists
 import matplotlib.pyplot as plt
 import string
@@ -35,8 +35,8 @@ def GetWordsByLetters(wordlist, characters):
 def PlotLettersByWords(wordList, characterList, labelx):
     classicAlphabet = string.ascii_lowercase[:26]
     xAxis = list(range(len(classicAlphabet)))
-    yAxis = [CountWords(characterList[:x], wordList) for x in xAxis]
-    zAxis = [CountWords(classicAlphabet[:x], wordList) for x in xAxis]
+    yAxis = [len(MatchWordsFromLetters(characterList[:x], wordList)) for x in xAxis]
+    zAxis = [len(MatchWordsFromLetters(classicAlphabet[:x], wordList)) for x in xAxis]
     plt.plot(xAxis, yAxis, label=labelx)
     plt.plot(xAxis, zAxis, label="Classic Alphabet")
     plt.legend(loc='upper left')
