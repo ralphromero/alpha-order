@@ -1,4 +1,6 @@
 from itertools import groupby
+from Evaluator import MatchWordsFromLetters, CountWords
+#from Graph import PlotCharacterLists
 import matplotlib.pyplot as plt
 import string
 
@@ -30,10 +32,14 @@ def GetWordsByLetters(wordlist, characters):
     #TODO find all the words we can created in this wordlist using these characters.
     return listOfWords
 
-def PlotLettersByWords(wordList, characterList):
-    x = [2, 4, 6]#TODO character amount in this characterlist
-    y = [1, 3, 5]#TODO how many words we can make using x characters
-    plt.plot(x, y)
+def PlotLettersByWords(wordList, characterList, labelx):
+    classicAlphabet = string.ascii_lowercase[:26]
+    xAxis = list(range(len(classicAlphabet)))
+    yAxis = [CountWords(characterList[:x], wordList) for x in xAxis]
+    zAxis = [CountWords(classicAlphabet[:x], wordList) for x in xAxis]
+    plt.plot(xAxis, yAxis, label=labelx)
+    plt.plot(xAxis, zAxis, label="Classic Alphabet")
+    plt.legend(loc='upper left')
     plt.show()
 
 def PairedFrequencyAlphaOrder(wordlist):
@@ -68,11 +74,32 @@ def RemoveDuplicatesAndLowerFromList(wordlist):
 
 with open ('WordList - twoyearold.txt') as f:
     lines = f.read().splitlines()
-    modifiedAlphabet = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    
     #print(modifiedAlphabet)
     classicAlphabet = string.ascii_lowercase[:26]
-    #PlotLettersByWords(classicAlphabet)
+    
+    sampleIndex = [5,10,15,20,25]
+
+    modifiedAlphabet = BasicFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    for x in sampleIndex:
+        print("Using " + str(x) + " letters we can make the words:")
+        print("Modified Letters: " + str(modifiedAlphabet[:x]))
+        print("Modified: ")
+        print(MatchWordsFromLetters(modifiedAlphabet[:x],lines))
+    stuff = [(classicAlphabet, "Classic Alphabet")]
+    #PlotCharacterLists(lines, stuff)
+    PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
+    
+
+    # modifiedAlphabet = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
+    # for x in sampleIndex:
+    #     print("Using " + str(x) + " letters we can make the words:")
+    #     print("Modified Letters: " + str(modifiedAlphabet[:x]))
+    #     print("Modified: ")
+    #     print(MatchWordsFromLetters(modifiedAlphabet[:x],lines))
+    # PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
     #PlotLettersByWords(modifiedAlphabet)
+
 
 
 
