@@ -60,8 +60,6 @@ def BasicFrequencyAlphaOrder(wordlist):
     orderList = []
     letterList = [y for x in wordlist for y in x]
     freqDict = {x:letterList.count(x) for x in letterList}
-    for x,y in freqDict.items():
-        print(x + ":" + str(y))
     uniqueValues = UniqueValuesFromDict(freqDict)
     orderList = [CombineUniqueSecondList(orderList, GetDictKeysFromValues(freqDict, x)) for x in uniqueValues]
     return [y for x in orderList for y in x]
@@ -74,27 +72,17 @@ def RemoveDuplicatesAndLowerFromList(wordlist):
 
 with open ('WordList - twoyearold.txt') as f:
     lines = f.read().splitlines()
-    
-    #print(modifiedAlphabet)
+
     classicAlphabet = string.ascii_lowercase[:26]
-    
-    sampleIndex = [5,10,15,20,25]
-
     modifiedAlphabet = BasicFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
-    for x in sampleIndex:
-        print("Using " + str(x) + " letters we can make the words:")
-        print("Modified Letters: " + str(modifiedAlphabet[:x]))
-        print("Modified: ")
-        print(MatchWordsFromLetters(modifiedAlphabet[:x],lines))
-
     pairedFrequency = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
-    stuff = [(classicAlphabet, "Classic Alphabet"),(modifiedAlphabet, "Basic Frequency"),(pairedFrequency, "Paired Frequency")]
-    PlotCharacterLists(lines, stuff)
-    #PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
-    
 
+    stuff = [(classicAlphabet, "Classic Alphabet"),
+        (modifiedAlphabet, "Basic Frequency"),
+        (pairedFrequency, "Paired Frequency")]
+    PlotCharacterLists(lines, stuff)
     
-    # for x in sampleIndex:
+    # for x in [5,10,15,20,25]:
     #     print("Using " + str(x) + " letters we can make the words:")
     #     print("Modified Letters: " + str(modifiedAlphabet[:x]))
     #     print("Modified: ")
