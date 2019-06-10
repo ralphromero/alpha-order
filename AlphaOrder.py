@@ -73,14 +73,17 @@ def RemoveDuplicatesAndLowerFromList(wordlist):
 with open ('WordList - twoyearold.txt') as f:
     lines = f.read().splitlines()
 
-    classicAlphabet = string.ascii_lowercase[:26]
+    classicAlphabet = list(string.ascii_lowercase[:26])
     modifiedAlphabet = BasicFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
     pairedFrequency = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
 
-    stuff = [(classicAlphabet, "Classic Alphabet"),
+    resultSet = [(classicAlphabet, "Classic Alphabet"),
         (modifiedAlphabet, "Basic Frequency"),
         (pairedFrequency, "Paired Frequency")]
-    PlotCharacterLists(lines, stuff)
+    
+    for x in resultSet:
+        print(x[1] + str(x[0]))
+    PlotCharacterLists(lines, resultSet)
     
     # for x in [5,10,15,20,25]:
     #     print("Using " + str(x) + " letters we can make the words:")
