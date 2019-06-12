@@ -1,6 +1,7 @@
 from itertools import groupby
 from Evaluator import MatchWordsFromLetters
 from Graph import PlotCharacterLists
+from GeneticSearch import Search
 import matplotlib.pyplot as plt
 import string
 
@@ -76,22 +77,14 @@ with open ('WordList - twoyearold.txt') as f:
     classicAlphabet = list(string.ascii_lowercase[:26])
     modifiedAlphabet = BasicFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
     pairedFrequency = PairedFrequencyAlphaOrder(RemoveDuplicatesAndLowerFromList(lines))
-
     resultSet = [(classicAlphabet, "Classic Alphabet"),
         (modifiedAlphabet, "Basic Frequency"),
         (pairedFrequency, "Paired Frequency")]
-    
+    for pos,gen in enumerate(Search(lines, 5000)):
+        resultSet.append((gen, "Genetic Algorithm " + str(pos+1)))
     for x in resultSet:
-        print(x[1] + str(x[0]))
+        print(x[1] + ": " + ''.join(x[0]))
     PlotCharacterLists(lines, resultSet)
-    
-    # for x in [5,10,15,20,25]:
-    #     print("Using " + str(x) + " letters we can make the words:")
-    #     print("Modified Letters: " + str(modifiedAlphabet[:x]))
-    #     print("Modified: ")
-    #     print(MatchWordsFromLetters(modifiedAlphabet[:x],lines))
-    # PlotLettersByWords(lines, modifiedAlphabet, "Modified Alphabet")
-    #PlotLettersByWords(modifiedAlphabet)
 
 
 

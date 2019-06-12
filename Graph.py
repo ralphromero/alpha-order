@@ -8,4 +8,7 @@ def PlotCharacterLists(wordlist, charListLabel):
         otherAxis = [len(MatchWordsFromLetters((x[0])[:y], wordlist)) for y in xAxis]
         plt.plot(xAxis, otherAxis, label=x[1] + " Score: " + str(sum(otherAxis)))
     plt.legend(loc='upper left')
+    plt.xlabel('Number of Letters')
+    plt.ylabel('Word Amount')
+    plt.title('Alphabet Sequence Scores')
     plt.show()
